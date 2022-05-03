@@ -1,5 +1,6 @@
-小型论坛
-- 前端 Vue.js + element-ui
-- 后端 Express+Mongodb
+BBS
+- front-end: Vue.js + element-ui
+- back-end: Express+Mongodb
 
-暂未上线
+
+unfinished
