@@ -1,5 +1,5 @@
-小型论坛
-- 前端 Vue.js + element-ui
-- 后端 Express+Mongodb
+BBS for sherlock(BBC)
 
-暂未上线
+- front-end: Vue.js, vue-router, element-ui, axios
+
+- back-end: Express+Mongodb
