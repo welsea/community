@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^3.2.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "element-ui": "^2.4.5",
     "swiper": "^6.5.1",
     "vue": "^2.5.2",
