@@ -6,13 +6,13 @@
       <el-row :gutter="24" type="flex" justify="space-between">
         <el-col :span="7">
           <el-card id="work1">
-            <div id="work1_title" class="single_line">名字</div>
+            <div id="work1_title" class="single_line">name</div>
             <div id="work1_info">
               <div>author</div>
               <div class="commend_contact">24342@mail.com</div>
               <div id="work_kudos">
-                <img id="kudos" src="../assets/heart.png" alt="">
-                <div id="kudos_num">324</div>
+                <i class="icon icon-font icon-aixin1 aixin_fill"></i>
+                <div id="kudos_num">kudos</div>
               </div>
               <div class="work1_msg">总之就是推荐</div>
               <div class="to_btn">点击查看</div>
@@ -21,16 +21,17 @@
         </el-col>
         <el-col :span="16">
           <div id="instant_c">即时热门推荐</div>
-          <div v-for="(item,i) in 10" :key="i" id="work_common" :class="{work_top3: i<3 , others_commend:i>=3}">
+          <div v-for="(item,i) in fics" :key="item._id" id="work_common"
+            :class="{work_top3: i<3 , others_commend:i>=3}">
             <div class="commend_num">{{ i+1 }} <span v-if="i<3">-</span></div>
             <div class="commend_info">
-              <div class="commend_title single_line">文章的名字</div>
-              <div class="commend_author">作者</div>
-              <div class="commend_abstract" v-if="i<3">介绍啊啊啊啊</div>
+              <div class="commend_title single_line" @click="jumpToItem(item._id,'fic')">{{item.name}}</div>
+              <div class="commend_author">{{item.author}}</div>
+              <div class="commend_abstract" v-if="i<3">{{item.summary}}</div>
             </div>
             <div id="work_kudos">
-              <img id="kudos" src="../assets/heart.png" alt="">
-              <div id="kudos_num">324</div>
+              <i class="icon icon-font icon-aixin1 aixin_fill"></i>
+              <div id="kudos_num">{{item.kudos}}</div>
             </div>
           </div>
           <div class="to_fiction" @click="jumpToFic">点击查看更多 >> </div>
@@ -39,116 +40,148 @@
     </div>
 
     <div id="line"></div>
-    <div id="title1" style="margin-top:40px;">图区推荐</div>
+    <div id="title1" style="margin-top:100px;">图区推荐</div>
     <div class="more_btn" @click="jumpToPic">查看更多</div>
     <div class="intro">这里是图区推荐balabala</div>
-    <div id="pic_commend">
-      <swiper ref="mySwiper" :options="swiperOptions">
+    <div id="pic_commend" class="flex_content">
+      <!--      
+    <swiper ref="mySwiper" :options="swiperOptions">
         <swiper-slide v-for="item in 10" :key="item">
-          <el-card :body-style="{ padding: '0px' }" class="pic_commend_item" shadow="never">
-            <img src="../assets/221b.jpg" class="image">
-            <div class="pic_commend_info">
-              <div class="pic_commend_title">作品名</div>
-              <div class="pic_commend_artist">作者名 {{ item }}</div>
-              <div id="work_kudos">
-                <img id="kudos" src="../assets/heart.png" alt="">
-                <div id="kudos_num">324</div>
-              </div>
-            </div>
-          </el-card>
+-->
+      <el-card v-for="item in imgs" :key="item._id" :body-style="{ padding: '0px' }" class="pic_commend_item"
+        shadow="never">
+        <img :src="item.url" @click="jumpToItem(item._id)" class="cimg_image">
+        <div class="pic_commend_info">
+          <div class="pic_commend_title" @click="jumpToItem(item._id,'img')">{{item.name}}</div>
+          <div class="pic_commend_artist">{{item.artist}}</div>
+          <div id="work_kudos">
+            <i class="icon icon-font icon-aixin1 aixin_fill"></i>
+            <div id="kudos_num">{{item.kudos}}</div>
+          </div>
+        </div>
+      </el-card>
+      <!--      
         </swiper-slide>
         <div class="swiper-button-next " slot="button-next"></div>
       </swiper>
+-->
+
     </div>
 
 
     <div id="line"></div>
-    <div id="title1" style="margin-top:40px;">视频推荐</div>
+    <div id="title1" style="margin-top:100px;">视频推荐</div>
     <div class="more_btn" @click="jumpToVid">查看更多</div>
     <div class="intro">这里是视频推荐balabala</div>
-    <div id="video_commend">
-      <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide v-for="item in 10" :key="item">
-          <el-card :body-style="{ padding: '0px' }" class="video_commend_item">
-            <img src="../assets/221b.jpg" class="image">
-            <div class="video_commend_info">
-              <div class="video_commend_title single_line">作品名{{ item }}</div>
-              <div class="video_info_2">
-                <div id="work_kudos">
-                  <img id="kudos" src="../assets/heart.png" alt="">
-                  <div id="kudos_num">324</div>
-                </div>
-                <div class="video_commend_artist">
-                  <img src="../assets/user.png" alt="">作者名</div>
-              </div>
+    <div id="video_commend" class="flex_content">
+      <!---      <swiper ref="mySwiper" :options="swiperOptions">
+        <swiper-slide >
+  -->
+      <el-card v-for="item in videos" :key="item._id" :body-style="{ padding: '0px' }" class="video_commend_item">
+        <img :src="item.face" class="cvideo_image">
+        <div class="video_commend_info">
+          <div class="video_commend_title single_line">
+            <a :href="'https://www.bilibili.com/video/'+item.bv" target="_blank">{{item.name}}</a>
+          </div>
+          <div class="video_info_2">
+            <!-- <div id="work_kudos">
+              <i class="icon icon-font icon-aixin1 aixin_fill"></i>
+              <div id="kudos_num">324</div>
             </div>
-          </el-card>
-        </swiper-slide>
+            -->
+            <div class="video_commend_artist">
+              <img src="../assets/user.png" alt="">{{item.owner}}</div>
+          </div>
+        </div>
+      </el-card>
+      <!--        </swiper-slide>
         <div class="swiper-button-next " slot="button-next"></div>
       </swiper>
+-->
     </div>
 
     <div id="line"></div>
-    <div id="title1" style="margin-top:40px;">精选留言</div>
+    <div id="title1" style="margin-top:100px;">精选留言</div>
+    <div class="more_btn" @click="jumpToMsg">查看更多</div>
     <div class="intro">这里是精选留言balabala</div>
-    <div id="msg_commend" style="margin-bottom:50px">
+    <div id="msg_commend" style="margin-bottom:50px" class="flex_content">
+      <!--      
       <swiper ref="mySwiper" :options="swiperOptions">
         <swiper-slide v-for="item in 10" :key="item">
-          <el-card :body-style="{ padding: '0px' }" class="msg_commend_item">
-            <div class="msg_line1">
-              <img src="../assets/logo.png" class="image">
-              <div class="msg_line1_2">
-                <div>名字</div>
-                <div id="work_kudos">
-                  <img id="kudos" src="../assets/heart.png" alt="">
-                  <div id="kudos_num">324</div>
-                </div>
-              </div>
+-->
+      <el-card v-for="item in msgs" :key="item._id" :body-style="{ padding: '0px' }" class="msg_commend_item">
+        <div class="msg_line1">
+          <img :src="item.avatar" class="cmsg_image">
+          <div class="msg_line1_2">
+            <div>{{item.name}}</div>
+            <div id="work_kudos">
+              <i class="icon icon-font icon-aixin1 aixin_fill"></i>
+              <div id="kudos_num">{{item.kudos}}</div>
             </div>
-            <div class="msg_commend_ct">
-              {{item}}
-              Sherlock is a British crime television series based on Sir Arthur Conan Doyle's Sherlock
-              Holmes detective stories. Created by Steven Moffat and Mark Gatiss, it stars Benedict
-              Cumberbatch as Sherlock Holmes and Martin Freeman as Doctor John Watson.
-            </div>
-          </el-card>
+          </div>
+        </div>
+        <div class="msg_commend_ct">
+          <div v-html="item.content"></div>
+        </div>
+      </el-card>
+      <!--      
         </swiper-slide>
         <div class="swiper-button-next " slot="button-next"></div>
       </swiper>
-
+-->
     </div>
   </div>
 </template>
 <script>
-  import {
-    Swiper,
-    SwiperSlide,
-  } from 'vue-awesome-swiper'
-  import 'swiper/swiper-bundle.css'
+  // import {
+  //   Swiper,
+  //   SwiperSlide,
+  // } from 'vue-awesome-swiper'
+  // import 'swiper/swiper-bundle.css'
 
   export default {
     name: 'carrousel',
-    components: {
-      Swiper,
-      SwiperSlide
-    },
+    // components: {
+    //   Swiper,
+    //   SwiperSlide
+    // },
     data() {
       return {
-        swiperOptions: {
-          slidesPerView: 3,
-          spaceBetween: 20,
-          // initialSlide: 0,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            // prevEl: '.swiper-button-prev'
-          },
-        }
+        // swiperOptions: {
+        //   slidesPerView: 3,
+        //   spaceBetween: 20,
+        //   // initialSlide: 0,
+        //   navigation: {
+        //     nextEl: '.swiper-button-next',
+        //     // prevEl: '.swiper-button-prev'
+        //   },
+        // }
+        from: ''
       }
     },
+    created() {
+      this.$store.dispatch('limitImgs');
+      this.$store.dispatch('limitFics');
+      this.$store.dispatch('limitVideos');
+      this.$store.dispatch('limitMsgs');
+    },
     computed: {
-      swiper() {
-        return this.$refs.mySwiper.$swiper
+      // swiper() {
+      //   return this.$refs.mySwiper.$swiper
+      // }
+      imgs() {
+        return this.$store.getters.allImgs;
+      },
+      fics() {
+        return this.$store.getters.allFics;
+      },
+      videos() {
+        return this.$store.getters.allVideos;
+      },
+      msgs() {
+        return this.$store.getters.allMsgs;
       }
+
     },
     methods: {
       jumpToFic() {
@@ -174,16 +207,75 @@
             select_work: 3
           }
         })
-      }
+      },
+      jumpToMsg() {
+        this.$router.push({
+          path: '/message'
+        })
+      },
+      jumpToItem(id, from) {
+        if (from == 'fic') {
+          this.from = "fics"
+        } else {
+          this.from = "imgs"
+        }
+        this.$router.push({
+          path: '/item',
+          query: {
+            id: id,
+            from: this.from,
+          }
+        })
+
+      },
     },
     mounted() {
-      console.log('Current Swiper instance object', this.swiper)
+      // console.log('Current Swiper instance object', this.swiper)
     }
   }
 
 </script>
 
 <style>
+  .flex_content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cimg_image {
+    width: 100%;
+    display: block;
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .cvideo_image {
+    width: 100%;
+    display: block;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .cmsg_image {
+    display: block;
+    object-fit: cover;
+  }
+
+  #work_kudos {
+    background: #fff;
+    padding: 5px 6px;
+    border-radius: 20px;
+    font-size: 11px;
+    color: #999;
+    line-height: 13px;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid #fad4d3;
+    margin: 5px 0;
+    height: fit-content;
+  }
+
   #kudos {
     display: inline;
     width: 13px;
@@ -212,6 +304,7 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+
   }
 
   .msg_line1_2 {
@@ -220,7 +313,7 @@
   }
 
   .msg_commend_item {
-    width: 300px;
+    width: 25%;
     padding: 20px;
   }
 
@@ -273,7 +366,7 @@
   }
 
   .video_commend_item {
-    width: 350px;
+    width: 30%;
   }
 
   .swiper-button-next {
@@ -300,7 +393,7 @@
   }
 
   .pic_commend_item {
-    width: 350px;
+    width: 30%;
     background-color: #f6f6f6 !important;
     border: none !important;
   }
